@@ -1,0 +1,14 @@
+{
+  "name": "favrm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "favrm.js",
+  "scripts": {
+    "test": "true"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "twitter": "^1.7.1"
+  }
+}
