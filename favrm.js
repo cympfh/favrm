@@ -5,9 +5,10 @@ const config = YAML.load('./config.yml');
 var client = new twitter(config.twitter);
 
 function remove(id) {
-    console.log('remove', id);
+    console.log(`Removing ${id}`);
     client.post(`statuses/destroy/${id}`, {}, (err, _, response) => {
         if (err) console.log(err);
+        console.log(`done`);
     });
 }
 
@@ -44,7 +45,7 @@ function protected(tweet) {
             if (dmin > 10) suicide();
         }, 60);
 
-        console.log('ready');
+        console.log('Ready');
 
         stream.on('data', (json) => {
             last_time = (new Date()).getTime();
@@ -55,10 +56,10 @@ function protected(tweet) {
             if (json.target_object.user.screen_name !== config.twitter.username) return;
             var id = json.target_object.id_str;
             var text = json.target_object.text;
-            console.log(`${json.source.screen_name} favorite ${id}: ${text}`);
+            console.log(`Event: ${json.source.screen_name} favorite ${id}: ${text}`);
 
             if (protected(tweet)) {
-                console.log('Protected');
+                console.log('Protected tweet');
             } else {
                 remove(id);
             }
