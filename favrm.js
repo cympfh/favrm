@@ -1,6 +1,5 @@
 const YAML = require('yamljs');
 const twitter = require('twitter');
-var { execFile } = require('child_process');
 
 const config = YAML.load('./config.yml');
 var client = new twitter(config.twitter);
@@ -12,11 +11,17 @@ function remove(id) {
     });
 }
 
-function protected(text) {
+function protected(tweet) {
     if (config.protect) {
-        var w;
-        for (w of config.protect) {
-            if (text.indexOf(w) >= 0) return true;
+        if (config.protect.keywords) {
+            for (var i = 0; i < config.protect.keywords.length; ++i) {
+                if (tweet.text.indexOf(config.protect.keywords[i]) >= 0) {
+                    return true;
+                }
+            }
+        }
+        if (config.protect.has_media === true) {
+            if (tweet.entities && tweet.entities.media) return true;
         }
     }
     return false;
@@ -52,7 +57,7 @@ function protected(text) {
             var text = json.target_object.text;
             console.log(`${json.source.screen_name} favorite ${id}: ${text}`);
 
-            if (protected(text)) {
+            if (protected(tweet)) {
                 console.log('Protected');
             } else {
                 remove(id);
