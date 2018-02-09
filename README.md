@@ -2,19 +2,22 @@
 
 ファボられたらリムる
 
-## config.json
+Remove your tweets which was favorited.
 
-```json
-{
-    "twitter": {
-        "username": "ampeloss",
-        "consumer_key": "9FjIDn****************",
-        "consumer_secret": "JtKRvlgfd7G1e9QIEG6***********************",
-        "access_token_key": "182031312-****************************************",
-        "access_token_secret": "*********************************************"
-    },
-    "protect": []
-}
+## config.yml [yaml]
+
+```yaml
+twitter:
+  username: ampeloss
+  consumer_key: xxxxxxxxxxxxxxxxxxxxxx
+  consumer_secret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  access_token_key: 000000000-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  access_token_secret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+protect:
+  has_media: true
+  keywords:
+    - 世界が平和でありますように
 ```
 
 ## dependencies

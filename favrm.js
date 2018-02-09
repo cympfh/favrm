@@ -1,7 +1,8 @@
-var twitter = require('twitter');
+const YAML = require('yamljs');
+const twitter = require('twitter');
 var { execFile } = require('child_process');
 
-var config = require('./config.json');
+const config = YAML.load('./config.yml');
 var client = new twitter(config.twitter);
 
 function remove(id) {
