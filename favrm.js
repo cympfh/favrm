@@ -12,17 +12,20 @@ function remove(id) {
     });
 }
 
-function protected(tweet) {
+function protected(event) {
     if (config.protect) {
         if (config.protect.keywords) {
+            const text = event.target_object.text;
             for (var i = 0; i < config.protect.keywords.length; ++i) {
-                if (tweet.text.indexOf(config.protect.keywords[i]) >= 0) {
+                if (text.indexOf(config.protect.keywords[i]) >= 0) {
                     return true;
                 }
             }
         }
         if (config.protect.has_media === true) {
-            if (tweet.entities && tweet.entities.media) return true;
+            if (event.target_object.entities && event.target_object.entities.media) {
+                return true;
+            }
         }
     }
     return false;
@@ -47,18 +50,18 @@ function protected(tweet) {
 
         console.log('Ready');
 
-        stream.on('data', (json) => {
+        stream.on('data', (event) => {
             last_time = (new Date()).getTime();
         });
 
-        stream.on('event', (json) => {
-            if (json.event !== 'favorite') return;
-            if (json.target_object.user.screen_name !== config.twitter.username) return;
-            var id = json.target_object.id_str;
-            var text = json.target_object.text;
-            console.log(`Event: ${json.source.screen_name} favorite ${id}: ${text}`);
+        stream.on('event', (event) => {
+            if (event.event !== 'favorite') return;
+            if (event.target_object.user.screen_name !== config.twitter.username) return;
+            var id = event.target_object.id_str;
+            var text = event.target_object.text;
+            console.log(`Event: ${event.source.screen_name} favorite ${id}: ${text}`);
 
-            if (protected(tweet)) {
+            if (protected(event)) {
                 console.log('Protected tweet');
             } else {
                 remove(id);
